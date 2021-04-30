@@ -1,7 +1,7 @@
 {
   "name": "react-native-douyin",
   "title": "React Native Douyin",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "抖音登录、分享",
   "main": "index.js",
   "scripts": {

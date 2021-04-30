@@ -28,7 +28,47 @@
 
 3. 配置你的App与抖音短视频通讯的 URLScheme，即申请到的appKey
 
-4. 分享的图片通过相册进行跨进程共享手段，如需使用分享功能，还需要填相册访问权限，在 info 标签栏中添加 Privacy - Photo Library Usage Description。具体请参考抖音开平台。
+4. 分享的图片通过相册进行跨进程共享手段，如需使用分享功能，还需要填相册访问权限，在 info 标签栏中添加 Privacy - Photo Library Usage Description,具体请参考抖音开平台。
+
+5.初始化以及UIApplicationDelegate部分#
+在AppDelegate中引入DouyinOpenSDKApplicationDelegate.h头文件 并在 App 启动、收到 Open URL 打开 App 时调用 SDK 进行处理
+```
+#import<DouyinOpenSDK/DouyinOpenSDKApplicationDelegate.h>
+
+@implementation AppDelegate
+
+
+
+- (BOOL)application:(UIApplication *)application openURL:(nonnull NSURL *)url options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+ 
+ if ([[DouyinOpenSDKApplicationDelegate sharedInstance] application:application openURL:url sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey] annotation:options[UIApplicationOpenURLOptionsAnnotationKey]]
+        ) {
+ return YES;
+    }
+ 
+ return NO;
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+ 
+ if ([[DouyinOpenSDKApplicationDelegate sharedInstance] application:application openURL:url sourceApplication:sourceApplication annotation:annotation]) {
+ return YES;
+    }
+ 
+ return NO;
+}
+ 
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+ if ([[DouyinOpenSDKApplicationDelegate sharedInstance] application:application openURL:url sourceApplication:nil annotation:nil]) {
+ return YES;
+    }
+ return NO;
+}
+@end
+```
+
 
 
 #### Android
@@ -39,7 +79,7 @@
   	```
 		 repositories {
 			...
-            compile project(':react-native-douyin')
+        maven { url 'https://dl.bintray.com/aweme-open-sdk-team/public' }
 		 }
   	```
 3. 若您的应用的代码存在混淆，若在混淆的情况下存在不能吊起分享的情况，请在您的proguard文件中添加 -keep class com.bytedance.sdk.open.aweme.**
@@ -61,7 +101,7 @@ import Douyin from 'react-native-douyin';
 
 - `scope` {String} 请参考抖音开放平台，如'user_info'
 
-- `state` {String} 目前无效
+- `state` {String} 目前无用
 
 成功的返回:
 
