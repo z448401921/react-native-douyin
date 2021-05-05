@@ -4,12 +4,12 @@ const {DouYinModule} = NativeModules;
 
 export default Douyin={
   init(appKey){
-    NativeModules.init(appKey)
+    DouYinModule.init(appKey)
   },
   auth(scope,state){
-    return NativeModules.auth(scope,state)
+    return DouYinModule.auth(scope,state)
   },
   shareVideo(path,publish){
-    return NativeModules.shareVideo(path,publish)
+    return DouYinModule.shareVideo(path,publish)
   }
 };
